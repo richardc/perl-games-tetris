@@ -9,6 +9,20 @@ Games::Tetris - representation of a tetris game state
 
 =head1 SYNOPSIS
 
+ use Games::Tetris;
+ my $well = Games::Tetris->new;
+ my $ess = $well->new_shape(' +',
+                            '++',
+                            '+ ');
+ $well->drop( $ess, 3, 1 );
+ $well->print;
+
+=head1 DESCRIPTION
+
+This module can be used as the rules engine for the game of tetris.
+It allows you to create a well and drop pieces in it.  The well tracks
+the status its contents and handles completed line removal.
+
 =head1 METHODS
 
 =head2 new
@@ -70,7 +84,7 @@ sub new_shape {
 
 =head2 print
 
-used by the testsuite
+used by the testsuite.  prrints the current state of the well
 
 =cut
 
