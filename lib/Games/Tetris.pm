@@ -1,9 +1,7 @@
 package Games::Tetris;
 use strict;
 use Games::Tetris::Shape;
-
-use vars qw($VERSION);
-$VERSION = '0.01';
+our $VERSION = '0.01';
 
 =head1 NAME
 
@@ -67,7 +65,7 @@ delegates to Games::Tetris::Shape->new
 
 sub new_shape {
     my $self = shift;
-    new Games::Tetris::Shape @_;
+    Games::Tetris::Shape->new(@_);
 }
 
 =head2 print

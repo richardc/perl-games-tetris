@@ -11,13 +11,18 @@ Games::Tetris::Shape - representation of a tetris shape
 
 =head1 METHODS
 
+=head2 new( @rows )
+
+Construct a new shape
+
 =cut
 
 sub new {
     my $class = shift;
-    my $self = $class->SUPER::new;
     my @rows = @_;
-    $self->shape( [ map { [ map { / / ? undef : $_ } split // ] } @_ ] );
+
+    my $self = $class->SUPER::new;
+    $self->shape( [ map { [ map { / / ? undef : $_ } split // ] } @rows ] );
     $self->width( scalar @{ $self->shape->[0] } );
     $self->depth( scalar @{ $self->shape } );
     $self->center([ int($self->width / 2), int($self->depth / 2) ]);
@@ -30,12 +35,22 @@ sub print {
       for @{ $self->shape };
 }
 
+
+=head1 covers( $offset_x, $offset_y )
+
+return a list of points that the shape covers, offset by $offset_x,
+$offset_y.
+
+Each point is an anonymous array containing $x, $y, and what's in the
+cell
+
+=cut
+
 sub covers {
     my $self = shift;
     my ($x, $y) = @_;
     my ($cx, $cy) = @{ $self->center };
     my @points;
-
 
     for (my $iy = 0; $iy < $self->depth; $iy++) {
         for (my $ix = 0; $ix < $self->width; $ix++) {
