@@ -8,10 +8,10 @@ use Class::MethodMaker
 sub init {
     my $self = shift;
     my @rows = @_;
-    $self->shape( [ map { [ split // ] } @_ ] );
+    $self->shape( [ map { [ map { / / ? undef : $_ } split // ] } @_ ] );
     $self->width( scalar @{ $self->shape->[0] } );
     $self->depth( scalar @{ $self->shape } );
-    $self->center([ $self->width / 2, $self->depth / 2 ]);
+    $self->center([ int($self->width / 2), int($self->depth / 2) ]);
 }
 
 sub print {
@@ -26,8 +26,9 @@ sub covers {
     my ($cx, $cy) = @{ $self->center };
     my @points;
 
-    for (my $ix = 0; $ix < $self->width; $ix++) {
-        for (my $iy = 0; $iy < $self->depth; $iy++) {
+
+    for (my $iy = 0; $iy < $self->depth; $iy++) {
+        for (my $ix = 0; $ix < $self->width; $ix++) {
             my $point = $self->shape->[ $iy ][ $ix ];
             push @points, [ $x + ($ix - $cx), $y + ($iy - $cy), $point ]
               if $point;
