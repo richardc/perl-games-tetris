@@ -64,7 +64,7 @@ sub drop {
 
     return unless $self->fits(@_);
     my $max_y = $at_y;
-    for (my $y = $at_y; $y < $self->depth; $y++) {
+    for (my $y = $at_y; $y <= $self->depth; $y++) {
         last if !$self->fits( $shape, $at_x, $y );
         $max_y = $y;
     }
@@ -72,7 +72,19 @@ sub drop {
         my ($x, $y) = @$_;
         $self->well->[ $y ][ $x ] = '*';
     }
-    return 1;
+
+    my @removed;
+    for (my $y = 0; $y < $self->depth; $y++) {
+        my $inrow = grep { $_ } @{ $self->well->[$y] };
+        next if $inrow != $self->width;
+        push @removed, $y;
+    }
+
+    splice @{ $self->well }, $_, 1
+      for reverse @removed;
+    unshift @{ $self->well }, [(undef) x $self->width]
+      for @removed;
+    return \@removed;
 }
 
 1;
