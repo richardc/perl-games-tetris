@@ -28,7 +28,9 @@ sub covers {
 
     for (my $ix = 0; $ix < $self->width; $ix++) {
         for (my $iy = 0; $iy < $self->depth; $iy++) {
-            push @points, [ $x + ($ix - $cx), $y + ($iy - $cy) ];
+            my $point = $self->shape->[ $iy ][ $ix ];
+            push @points, [ $x + ($ix - $cx), $y + ($iy - $cy), $point ]
+              if $point;
         }
     }
     return @points;

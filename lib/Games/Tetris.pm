@@ -1,21 +1,21 @@
 package Games::Tetris;
 use strict;
-use warnings;
-
 use Games::Tetris::Shape;
-
 use Class::MethodMaker
   new_with_init => 'new',
   new_hash_init => 'hash_init',
   get_set => [ qw( well width depth ) ];
 
-our $VERSION = '0.01';
+use vars qw($VERSION);
+$VERSION = '0.01';
 
 =head2 new
 
 Creates a new gamestate
 
 well # initial well, array of arrays
+width # dimensions of new well (if C<well> parameter skipped)
+depth # as depth
 
 =cut
 
@@ -69,8 +69,8 @@ sub drop {
         $max_y = $y;
     }
     for ($shape->covers($at_x, $max_y)) {
-        my ($x, $y) = @$_;
-        $self->well->[ $y ][ $x ] = '*';
+        my ($x, $y, $val) = @$_;
+        $self->well->[ $y ][ $x ] = $val;
     }
 
     my @removed;
