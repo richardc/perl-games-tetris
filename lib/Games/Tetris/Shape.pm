@@ -14,7 +14,7 @@ sub init {
     $self->center([ $self->width / 2, $self->depth / 2 ]);
 }
 
-sub print_shape {
+sub print {
     my $self = shift;
     print join('', @$_), "\n"
       for @{ $self->shape };
