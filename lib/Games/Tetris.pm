@@ -53,7 +53,24 @@ sub fits {
                    $y < 0 ||
                    $x >= $self->width ||
                    $y >= $self->depth ||
-                   $self->well->[ $x ][ $y ]);
+                   $self->well->[ $y ][ $x ]);
+    }
+    return 1;
+}
+
+sub drop {
+    my $self = shift;
+    my ($shape, $at_x, $at_y) = @_;
+
+    return unless $self->fits(@_);
+    my $max_y = $at_y;
+    for (my $y = $at_y; $y < $self->depth; $y++) {
+        last if !$self->fits( $shape, $at_x, $y );
+        $max_y = $y;
+    }
+    for ($shape->covers($at_x, $max_y)) {
+        my ($x, $y) = @$_;
+        $self->well->[ $y ][ $x ] = '*';
     }
     return 1;
 }

@@ -25,4 +25,10 @@ ok(  $well->fits( $shape, 1, 1 ), "square fits at 1, 1" );
 ok( !$well->fits( $shape, 10, 1 ), "square doesn't fit at 10, 1" );
 ok(  $well->fits( $shape, 9, 1 ), "square fits at 9, 1" );
 
+ok( $well->drop( $shape, 1, 1 ), "dropped a shape at 1, 1" );
+$well->print;
+ok( $well->drop( $shape, 1, 1 ), "dropped a shape at 1, 1" );
+$well->print;
+ok( !$well->drop( $shape, 1, 1 ), "couldn't drop a shape at 1, 1" );
+
 #die Dumper $shape, $shape->covers(1,1);
