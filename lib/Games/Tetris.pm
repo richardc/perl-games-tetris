@@ -1,10 +1,6 @@
 package Games::Tetris;
 use strict;
 use Games::Tetris::Shape;
-use Class::MethodMaker
-  new_with_init => 'new',
-  new_hash_init => 'hash_init',
-  get_set => [ qw( well width depth ) ];
 
 use vars qw($VERSION);
 $VERSION = '0.01';
@@ -21,22 +17,47 @@ Games::Tetris - representation of a tetris game state
 
 Creates a new gamestate
 
-well # initial well, array of arrays
-width # dimensions of new well (if C<well> parameter skipped)
-depth # as depth
+Takes the following optional parameters:
+
+C<well> an initial well, an array of arrays.  use undef to indicate an
+empty cell, any other value is considered occupied
+
+or
+
+C<width>, C<depth> dimensions of a new well (defaults to 15 x 20)
 
 =cut
 
-sub init {
-    my $self = shift;
-    $self->hash_init( @_ );
+sub new {
+    my $referent = shift;
+    my %args = @_;
+    my $class = ref $referent || $referent;
 
-    $self->width or $self->width(15);
-    $self->depth or $self->depth(20);
-    $self->well  or $self->well( [ map {
-        [ (undef) x $self->width ]
-    } 1 .. $self->depth ] )
+    my $self = bless {}, $class;
+
+    my ($w, $d) = delete @args{ qw{ width depth } };
+    if ($self->{_well} = delete $args{well}) {
+        # figure out width and depth
+        die "I be slack";
+    }
+    else {
+        # make a new well
+        $self->{_width} = $w || 15;
+        $self->{_depth} = $d || 20;
+
+        $self->{_well} = [ map {
+            [ (undef) x $self->width ]
+        } 1 .. $self->depth ];
+    }
+
+    die "leftover arguments:". join (', ', map {"'$_'"} keys %args)
+      if keys %args;
+    return $self;
 }
+
+sub width { $_[0]->{_width} }
+sub depth { $_[0]->{_depth} }
+sub well  { $_[0]->{_well} }
 
 =head2 new_shape
 
@@ -133,9 +154,9 @@ __END__
 
 =over
 
-=item $piece->rotate
+=item $shape->rotate
 
-=item Tk/Wx interface
+=item Tk/Qt/Wx interface
 
 =item Network Code
 

@@ -10,8 +10,8 @@ my $well = Games::Tetris->new( width => 10,
 
 $well->print;
 isa_ok( $well, 'Games::Tetris' );
-is( $well->width, 10 );
-is( $well->depth, 4 );
+is( $well->width, 10, "well width is 10" );
+is( $well->depth, 5,  "well depth is 5" );
 
 my $square = $well->new_shape('**',
                               '**');

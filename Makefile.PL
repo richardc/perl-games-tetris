@@ -1,8 +1,7 @@
 use ExtUtils::MakeMaker;
 
 my $module = 'lib/Games/Tetris.pm';
-%depends = ('Test::More' => 0,
-            'Class::MethodMaker' => 0);
+%depends = ('Test::More' => 0);
 WriteMakefile('NAME'         => 'Games::Tetris',
               'VERSION_FROM' => $module,
               'PREREQ_PM'    => \%depends)
