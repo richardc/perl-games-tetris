@@ -1,9 +1,7 @@
-package Games::Tetris::Shape;
 use strict;
-
-use Class::MethodMaker
-  new_with_init => 'new',
-  get_set => [ qw( shape width depth center ) ];
+package Games::Tetris::Shape;
+use base 'Class::Accessor::Fast';
+__PACKAGE__->mk_accessors(qw( shape width depth center ));
 
 =head1 NAME
 
@@ -15,13 +13,15 @@ Games::Tetris::Shape - representation of a tetris shape
 
 =cut
 
-sub init {
-    my $self = shift;
+sub new {
+    my $class = shift;
+    my $self = $class->SUPER::new;
     my @rows = @_;
     $self->shape( [ map { [ map { / / ? undef : $_ } split // ] } @_ ] );
     $self->width( scalar @{ $self->shape->[0] } );
     $self->depth( scalar @{ $self->shape } );
     $self->center([ int($self->width / 2), int($self->depth / 2) ]);
+    return $self;
 }
 
 sub print {
