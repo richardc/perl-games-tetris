@@ -5,6 +5,16 @@ use Class::MethodMaker
   new_with_init => 'new',
   get_set => [ qw( shape width depth center ) ];
 
+=head1 NAME
+
+Games::Tetris::Shape - representation of a tetris shape
+
+=head1 SYNOPSIS
+
+=head1 METHODS
+
+=cut
+
 sub init {
     my $self = shift;
     my @rows = @_;
@@ -38,3 +48,22 @@ sub covers {
 }
 
 1;
+
+__END__
+
+=head1 AUTHOR
+
+Richard Clamp <richardc@unixbeard.net>
+
+=head1 COPYRIGHT
+
+Copyright (C) 2003 Richard Clamp.  All Rights Reserved.
+
+This module is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+Games::Tetris
+
+=cut
